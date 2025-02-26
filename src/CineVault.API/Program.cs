@@ -8,7 +8,7 @@ using Serilog.Events;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCineVaultDbContext(builder.Configuration);
-
+builder.Services.AddScoped<RequestMonitorMiddleware>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -44,6 +44,8 @@ if (app.Environment.IsLocal())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<RequestMonitorMiddleware>();
 
 app.MapControllers();
 

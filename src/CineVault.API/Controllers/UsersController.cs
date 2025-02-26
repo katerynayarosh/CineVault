@@ -21,6 +21,7 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<UserResponse>>> GetUsers()
     {
+        logger.LogInformation("GetUsers");
         var users = await this.dbContext.Users
             .Select(u => new UserResponse
             {
@@ -30,17 +31,19 @@ public class UsersController : ControllerBase
             })
             .ToListAsync();
 
-        return base.Ok(users);
+        return Ok(users);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<UserResponse>> GetUserById(int id)
     {
+        logger.LogInformation("GetUserById id:{id}", id);
         var user = await this.dbContext.Users.FindAsync(id);
 
         if (user is null)
         {
-            return base.NotFound();
+            logger.LogWarning("NotFound id:{id}", id);
+            return NotFound();
         }
 
         var response = new UserResponse
@@ -50,12 +53,13 @@ public class UsersController : ControllerBase
             Email = user.Email
         };
 
-        return base.Ok(response);
+        return Ok(response);
     }
 
     [HttpPost]
     public async Task<ActionResult> CreateUser(UserRequest request)
     {
+        logger.LogInformation("CreateUser username:{username}", request.Username);
         var user = new User
         {
             Username = request.Username,
@@ -66,17 +70,19 @@ public class UsersController : ControllerBase
         this.dbContext.Users.Add(user);
         await this.dbContext.SaveChangesAsync();
 
-        return base.Ok();
+        return Ok();
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateUser(int id, UserRequest request)
     {
+        logger.LogInformation("UpdateUser id:{id} username:{username}", id, request.Username);
         var user = await this.dbContext.Users.FindAsync(id);
 
         if (user is null)
         {
-            return base.NotFound();
+            logger.LogWarning("NotFound id:{id}", id);
+            return NotFound();
         }
 
         user.Username = request.Username;
@@ -85,22 +91,24 @@ public class UsersController : ControllerBase
 
         await this.dbContext.SaveChangesAsync();
 
-        return base.Ok();
+        return Ok();
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteUser(int id)
     {
+        logger.LogInformation("DeleteUser id:{id}", id);
         var user = await this.dbContext.Users.FindAsync(id);
 
         if (user is null)
         {
-            return base.NotFound();
+            logger.LogWarning("NotFound id:{id}", id);
+            return NotFound();
         }
 
         this.dbContext.Users.Remove(user);
         await this.dbContext.SaveChangesAsync();
 
-        return base.Ok();
+        return Ok();
     }
 }
