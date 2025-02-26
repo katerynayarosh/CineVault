@@ -10,10 +10,12 @@ namespace CineVault.API.Controllers;
 public sealed class ReviewsController : ControllerBase
 {
     private readonly CineVaultDbContext dbContext;
+    private readonly ILogger<ReviewsController> logger;
 
-    public ReviewsController(CineVaultDbContext dbContext)
+    public ReviewsController(CineVaultDbContext dbContext, ILogger<ReviewsController> logger)
     {
         this.dbContext = dbContext;
+        this.logger = logger;
     }
 
     [HttpGet]
