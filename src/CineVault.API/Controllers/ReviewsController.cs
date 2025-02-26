@@ -10,15 +10,18 @@ namespace CineVault.API.Controllers;
 public sealed class ReviewsController : ControllerBase
 {
     private readonly CineVaultDbContext dbContext;
+    private readonly ILogger<ReviewsController> logger;
 
-    public ReviewsController(CineVaultDbContext dbContext)
+    public ReviewsController(CineVaultDbContext dbContext, ILogger<ReviewsController> logger)
     {
         this.dbContext = dbContext;
+        this.logger = logger;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<ReviewResponse>>> GetReviews()
     {
+        logger.LogInformation("GetReviews");
         var reviews = await this.dbContext.Reviews
             .Include(r => r.Movie)
             .Include(r => r.User)
@@ -35,20 +38,22 @@ public sealed class ReviewsController : ControllerBase
             })
             .ToListAsync();
 
-        return base.Ok(reviews);
+        return Ok(reviews);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ReviewResponse>> GetReviewById(int id)
     {
+        logger.LogInformation("GetReviewById id:{id}", id);
         var review = await this.dbContext.Reviews
             .Include(r => r.Movie)
             .Include(r => r.User)
-            .FirstOrDefaultAsync(review => review.Id == id);
+            .FirstOrDefaultAsync(r => r.Id == id);
 
         if (review is null)
         {
-            return base.NotFound();
+            logger.LogWarning("NotFound id:{id}", id);
+            return NotFound();
         }
 
         var response = new ReviewResponse
@@ -63,12 +68,13 @@ public sealed class ReviewsController : ControllerBase
             CreatedAt = review.CreatedAt
         };
 
-        return base.Ok(response);
+        return Ok(response);
     }
 
     [HttpPost]
     public async Task<ActionResult> CreateReview(ReviewRequest request)
     {
+        logger.LogInformation("CreateReview movieId:{movieId} userId:{userId}", request.MovieId, request.UserId);
         var review = new Review
         {
             MovieId = request.MovieId,
@@ -80,17 +86,19 @@ public sealed class ReviewsController : ControllerBase
         this.dbContext.Reviews.Add(review);
         await this.dbContext.SaveChangesAsync();
 
-        return base.Created();
+        return Created();
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateReview(int id, ReviewRequest request)
     {
+        logger.LogInformation("UpdateReview id:{id} movieId:{movieId} userId:{userId}", id, request.MovieId, request.UserId);
         var review = await this.dbContext.Reviews.FindAsync(id);
 
         if (review is null)
         {
-            return base.NotFound();
+            logger.LogWarning("NotFound id:{id}", id);
+            return NotFound();
         }
 
         review.MovieId = request.MovieId;
@@ -100,22 +108,24 @@ public sealed class ReviewsController : ControllerBase
 
         await this.dbContext.SaveChangesAsync();
 
-        return base.Ok();
+        return Ok();
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteReview(int id)
     {
+        logger.LogInformation("DeleteReview id:{id}", id);
         var review = await this.dbContext.Reviews.FindAsync(id);
 
         if (review is null)
         {
-            return base.NotFound();
+            logger.LogWarning("NotFound id:{id}", id);
+            return NotFound();
         }
 
         this.dbContext.Reviews.Remove(review);
         await this.dbContext.SaveChangesAsync();
 
-        return base.Ok();
+        return Ok();
     }
 }
