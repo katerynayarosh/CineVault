@@ -370,3 +370,389 @@ System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport 
 2025-03-31 12:27:15.389 +03:00 [INF] Executed endpoint 'CineVault.API.Controllers.AppInfoController.GetEnvironment (CineVault.API)'
 2025-03-31 12:27:15.390 +03:00 [INF] Req done: GET /api/environment 200 in 104 ms
 2025-03-31 12:27:15.391 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/api/environment - 200 null application/json; charset=utf-8 152.2535ms
+2025-03-31 13:52:17.434 +03:00 [DBG] Registered model binder providers, in the following order: ["Asp.Versioning.ApiVersionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-03-31 13:52:17.652 +03:00 [DBG] Hosting starting
+2025-03-31 13:52:17.679 +03:00 [DBG] Middleware loaded
+2025-03-31 13:52:17.684 +03:00 [DBG] Middleware loaded. Script /_framework/aspnetcore-browser-refresh.js (16511 B).
+2025-03-31 13:52:17.687 +03:00 [DBG] Middleware loaded. Script /_framework/blazor-hotreload.js (799 B).
+2025-03-31 13:52:17.871 +03:00 [DBG] Middleware loaded: DOTNET_MODIFIABLE_ASSEMBLIES=debug, __ASPNETCORE_BROWSER_TOOLS=true
+2025-03-31 13:52:18.062 +03:00 [INF] Now listening on: https://localhost:7171
+2025-03-31 13:52:18.064 +03:00 [INF] Now listening on: http://localhost:5140
+2025-03-31 13:52:18.065 +03:00 [DBG] Loaded hosting startup assembly CineVault.API
+2025-03-31 13:52:18.066 +03:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-03-31 13:52:18.067 +03:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-03-31 13:52:18.068 +03:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-03-31 13:52:18.247 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-31 13:52:18.248 +03:00 [INF] Hosting environment: Development
+2025-03-31 13:52:18.249 +03:00 [INF] Content root path: C:\Users\Admin\Desktop\Навчанння\Розробка\cine-vault-rep\src\CineVault.API
+2025-03-31 13:52:18.250 +03:00 [DBG] Hosting started
+2025-03-31 13:52:18.401 +03:00 [DBG] Connection id "0HNBG88DK3EC9" accepted.
+2025-03-31 13:52:18.401 +03:00 [DBG] Connection id "0HNBG88DK3EC8" accepted.
+2025-03-31 13:52:18.404 +03:00 [DBG] Connection id "0HNBG88DK3EC9" received FIN.
+2025-03-31 13:52:18.404 +03:00 [DBG] Connection id "0HNBG88DK3EC8" received FIN.
+2025-03-31 13:52:18.413 +03:00 [DBG] Connection id "0HNBG88DK3EC8" started.
+2025-03-31 13:52:18.404 +03:00 [DBG] Connection id "0HNBG88DK3EC9" started.
+2025-03-31 13:52:18.451 +03:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-03-31 13:52:18.451 +03:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-03-31 13:52:18.546 +03:00 [DBG] Connection id "0HNBG88DK3EC8" stopped.
+2025-03-31 13:52:18.546 +03:00 [DBG] Connection id "0HNBG88DK3EC9" stopped.
+2025-03-31 13:52:18.572 +03:00 [DBG] Connection id "0HNBG88DK3EC8" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-03-31 13:52:18.572 +03:00 [DBG] Connection id "0HNBG88DK3EC9" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-03-31 13:52:18.772 +03:00 [DBG] Connection id "0HNBG88DK3ECA" accepted.
+2025-03-31 13:52:18.791 +03:00 [DBG] Connection id "0HNBG88DK3ECA" started.
+2025-03-31 13:52:18.879 +03:00 [DBG] Connection 0HNBG88DK3ECA established using the following protocol: "Tls13"
+2025-03-31 13:52:19.011 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/swagger/index.html - null null
+2025-03-31 13:52:19.190 +03:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-03-31 13:52:19.258 +03:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-03-31 13:52:19.262 +03:00 [DBG] Request did not match any endpoints
+2025-03-31 13:52:19.357 +03:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-03-31 13:52:19.360 +03:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-03-31 13:52:19.373 +03:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-03-31 13:52:19.376 +03:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-03-31 13:52:19.392 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/swagger/index.html - 200 null text/html;charset=utf-8 384.3405ms
+2025-03-31 13:52:19.403 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/swagger/index.js - null null
+2025-03-31 13:52:19.403 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/_framework/aspnetcore-browser-refresh.js - null null
+2025-03-31 13:52:19.404 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/_vs/browserLink - null null
+2025-03-31 13:52:19.412 +03:00 [DBG] No candidates found for the request path '/swagger/index.js'
+2025-03-31 13:52:19.420 +03:00 [DBG] Request did not match any endpoints
+2025-03-31 13:52:19.425 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/swagger/index.js - 200 null application/javascript;charset=utf-8 21.6889ms
+2025-03-31 13:52:19.438 +03:00 [DBG] Script injected: /_framework/aspnetcore-browser-refresh.js
+2025-03-31 13:52:19.460 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/_framework/aspnetcore-browser-refresh.js - 200 16511 application/javascript; charset=utf-8 56.907ms
+2025-03-31 13:52:19.508 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/_vs/browserLink - 200 null text/javascript; charset=UTF-8 103.8206ms
+2025-03-31 13:52:19.724 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/swagger/v1/swagger.json - null null
+2025-03-31 13:52:19.730 +03:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-03-31 13:52:19.734 +03:00 [DBG] Request did not match any endpoints
+2025-03-31 13:52:19.797 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 73.1547ms
+2025-03-31 13:57:32.069 +03:00 [DBG] Registered model binder providers, in the following order: ["Asp.Versioning.ApiVersionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-03-31 13:57:32.287 +03:00 [DBG] Hosting starting
+2025-03-31 13:57:32.314 +03:00 [DBG] Middleware loaded
+2025-03-31 13:57:32.322 +03:00 [DBG] Middleware loaded. Script /_framework/aspnetcore-browser-refresh.js (16511 B).
+2025-03-31 13:57:32.332 +03:00 [DBG] Middleware loaded. Script /_framework/blazor-hotreload.js (799 B).
+2025-03-31 13:57:32.492 +03:00 [DBG] Middleware loaded: DOTNET_MODIFIABLE_ASSEMBLIES=debug, __ASPNETCORE_BROWSER_TOOLS=true
+2025-03-31 13:57:32.669 +03:00 [INF] Now listening on: https://localhost:7171
+2025-03-31 13:57:32.670 +03:00 [INF] Now listening on: http://localhost:5140
+2025-03-31 13:57:32.672 +03:00 [DBG] Loaded hosting startup assembly CineVault.API
+2025-03-31 13:57:32.672 +03:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.ApiEndpointDiscovery
+2025-03-31 13:57:32.673 +03:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2025-03-31 13:57:32.675 +03:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2025-03-31 13:57:32.829 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-03-31 13:57:32.830 +03:00 [INF] Hosting environment: Development
+2025-03-31 13:57:32.831 +03:00 [INF] Content root path: C:\Users\Admin\Desktop\Навчанння\Розробка\cine-vault-rep\src\CineVault.API
+2025-03-31 13:57:32.833 +03:00 [DBG] Hosting started
+2025-03-31 13:57:32.855 +03:00 [DBG] Connection id "0HNBG8BBB1SB6" received FIN.
+2025-03-31 13:57:32.863 +03:00 [DBG] Connection id "0HNBG8BBB1SB6" accepted.
+2025-03-31 13:57:32.865 +03:00 [DBG] Connection id "0HNBG8BBB1SB6" started.
+2025-03-31 13:57:32.894 +03:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveHandshakeFrameAsync[TIOAdapter](CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2025-03-31 13:57:32.962 +03:00 [DBG] Connection id "0HNBG8BBB1SB6" stopped.
+2025-03-31 13:57:32.969 +03:00 [DBG] Connection id "0HNBG8BBB1SB6" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-03-31 13:57:33.362 +03:00 [DBG] Connection id "0HNBG8BBB1SB7" accepted.
+2025-03-31 13:57:33.369 +03:00 [DBG] Connection id "0HNBG8BBB1SB7" started.
+2025-03-31 13:57:33.467 +03:00 [DBG] Connection 0HNBG8BBB1SB7 established using the following protocol: "Tls13"
+2025-03-31 13:57:33.586 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/swagger/index.html - null null
+2025-03-31 13:57:33.787 +03:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-03-31 13:57:33.844 +03:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-03-31 13:57:33.846 +03:00 [DBG] Request did not match any endpoints
+2025-03-31 13:57:33.922 +03:00 [DBG] Response markup is scheduled to include Browser Link script injection.
+2025-03-31 13:57:33.926 +03:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2025-03-31 13:57:33.934 +03:00 [DBG] Response markup was updated to include Browser Link script injection.
+2025-03-31 13:57:33.937 +03:00 [DBG] Response markup was updated to include browser refresh script injection.
+2025-03-31 13:57:33.947 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/swagger/index.html - 200 null text/html;charset=utf-8 361.2631ms
+2025-03-31 13:57:33.973 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/_vs/browserLink - null null
+2025-03-31 13:57:33.973 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/_framework/aspnetcore-browser-refresh.js - null null
+2025-03-31 13:57:33.983 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/swagger/index.js - null null
+2025-03-31 13:57:34.011 +03:00 [DBG] No candidates found for the request path '/swagger/index.js'
+2025-03-31 13:57:34.013 +03:00 [DBG] Request did not match any endpoints
+2025-03-31 13:57:34.025 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/swagger/index.js - 200 null application/javascript;charset=utf-8 42.8801ms
+2025-03-31 13:57:34.054 +03:00 [DBG] Script injected: /_framework/aspnetcore-browser-refresh.js
+2025-03-31 13:57:34.060 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/_framework/aspnetcore-browser-refresh.js - 200 16511 application/javascript; charset=utf-8 86.7957ms
+2025-03-31 13:57:34.103 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/_vs/browserLink - 200 null text/javascript; charset=UTF-8 129.8451ms
+2025-03-31 13:57:34.154 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/swagger/v1/swagger.json - null null
+2025-03-31 13:57:34.160 +03:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-03-31 13:57:34.162 +03:00 [DBG] Request did not match any endpoints
+2025-03-31 13:57:34.219 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 64.6202ms
+2025-03-31 13:57:41.184 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7171/swagger/v2/swagger.json - null null
+2025-03-31 13:57:41.192 +03:00 [DBG] No candidates found for the request path '/swagger/v2/swagger.json'
+2025-03-31 13:57:41.193 +03:00 [DBG] Request did not match any endpoints
+2025-03-31 13:57:41.218 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7171/swagger/v2/swagger.json - 200 null application/json;charset=utf-8 34.1631ms
+2025-03-31 13:57:58.497 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7171/api/v2/Movies/CreateMovie - application/json 324
+2025-03-31 13:57:58.510 +03:00 [DBG] 2 candidate(s) found for the request path '/api/v2/Movies/CreateMovie'
+2025-03-31 13:57:58.517 +03:00 [DBG] Endpoint 'CineVault.API.Controllers.MoviesController.CreateMovie (CineVault.API)' with route pattern 'api/v{v:apiVersion}/Movies/CreateMovie' is valid for the request path '/api/v2/Movies/CreateMovie'
+2025-03-31 13:57:58.519 +03:00 [DBG] Endpoint 'CineVault.API.Controllers.MoviesController.CreateMovie (CineVault.API)' with route pattern 'api/v{v:apiVersion}/Movies/CreateMovie' is valid for the request path '/api/v2/Movies/CreateMovie'
+2025-03-31 13:57:58.530 +03:00 [DBG] Request matched endpoint 'CineVault.API.Controllers.MoviesController.CreateMovie (CineVault.API)'
+2025-03-31 13:57:58.533 +03:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-03-31 13:57:58.541 +03:00 [INF] Req start: POST /api/v2/Movies/CreateMovie
+2025-03-31 13:57:58.543 +03:00 [INF] Executing endpoint 'CineVault.API.Controllers.MoviesController.CreateMovie (CineVault.API)'
+2025-03-31 13:57:58.578 +03:00 [INF] Route matched with {action = "CreateMovie", controller = "Movies"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[CineVault.API.Controllers.Responses.ApiResponse`1[System.Int32]]] CreateMovie(CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.MovieRequest]) on controller CineVault.API.Controllers.MoviesController (CineVault.API).
+2025-03-31 13:57:58.582 +03:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-03-31 13:57:58.583 +03:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-03-31 13:57:58.585 +03:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-03-31 13:57:58.588 +03:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-03-31 13:57:58.590 +03:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-03-31 13:57:58.593 +03:00 [DBG] Executing controller factory for controller CineVault.API.Controllers.MoviesController (CineVault.API)
+2025-03-31 13:57:58.731 +03:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-03-31 13:57:58.763 +03:00 [DBG] Executed controller factory for controller CineVault.API.Controllers.MoviesController (CineVault.API)
+2025-03-31 13:57:58.783 +03:00 [DBG] Attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.MovieRequest]' ...
+2025-03-31 13:57:58.788 +03:00 [DBG] Attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.MovieRequest]' using the name '' in request data ...
+2025-03-31 13:57:58.791 +03:00 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2025-03-31 13:57:58.814 +03:00 [DBG] Connection id "0HNBG8BBB1SB7", Request id "0HNBG8BBB1SB7:0000000D": started reading request body.
+2025-03-31 13:57:58.815 +03:00 [DBG] Connection id "0HNBG8BBB1SB7", Request id "0HNBG8BBB1SB7:0000000D": done reading request body.
+2025-03-31 13:57:58.840 +03:00 [DBG] JSON input formatter succeeded, deserializing to type 'CineVault.API.Controllers.Requests.ApiRequest`1[[CineVault.API.Controllers.Requests.MovieRequest, CineVault.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'
+2025-03-31 13:57:58.842 +03:00 [DBG] Done attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.MovieRequest]'.
+2025-03-31 13:57:58.843 +03:00 [DBG] Done attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.MovieRequest]'.
+2025-03-31 13:57:58.844 +03:00 [DBG] Attempting to validate the bound parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.MovieRequest]' ...
+2025-03-31 13:57:58.859 +03:00 [DBG] Done attempting to validate the bound parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.MovieRequest]'.
+2025-03-31 13:57:58.868 +03:00 [INF] CreateMovie title:string
+2025-03-31 13:57:59.417 +03:00 [DBG] Entity Framework Core 9.0.0 initialized 'CineVaultDbContext' using provider 'Microsoft.EntityFrameworkCore.InMemory:9.0.0' with options: StoreName=Development Movie database connection string 
+2025-03-31 13:57:59.484 +03:00 [DBG] 'CineVaultDbContext' generated a value for the property 'Movie.Id'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:57:59.548 +03:00 [DBG] Context 'CineVaultDbContext' started tracking 'Movie' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:57:59.560 +03:00 [DBG] SaveChanges starting for 'CineVaultDbContext'.
+2025-03-31 13:57:59.566 +03:00 [DBG] DetectChanges starting for 'CineVaultDbContext'.
+2025-03-31 13:57:59.582 +03:00 [DBG] DetectChanges completed for 'CineVaultDbContext'.
+2025-03-31 13:57:59.610 +03:00 [INF] Saved 1 entities to in-memory store.
+2025-03-31 13:57:59.625 +03:00 [DBG] An entity of type 'Movie' tracked by 'CineVaultDbContext' changed state from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:57:59.631 +03:00 [DBG] SaveChanges completed for 'CineVaultDbContext' with 1 entities written to the database.
+2025-03-31 13:57:59.637 +03:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-03-31 13:57:59.642 +03:00 [DBG] Attempting to select an output formatter based on Accept header '["text/plain"]'.
+2025-03-31 13:57:59.644 +03:00 [DBG] Could not find an output formatter based on content negotiation. Accepted types were (["text/plain"])
+2025-03-31 13:57:59.646 +03:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-03-31 13:57:59.647 +03:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-03-31 13:57:59.649 +03:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-03-31 13:57:59.652 +03:00 [INF] Executing OkObjectResult, writing value of type 'CineVault.API.Controllers.Responses.ApiResponse`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-31 13:57:59.676 +03:00 [INF] Executed action CineVault.API.Controllers.MoviesController.CreateMovie (CineVault.API) in 1082.4429ms
+2025-03-31 13:57:59.677 +03:00 [INF] Executed endpoint 'CineVault.API.Controllers.MoviesController.CreateMovie (CineVault.API)'
+2025-03-31 13:57:59.678 +03:00 [INF] Req done: POST /api/v2/Movies/CreateMovie 200 in 1137 ms
+2025-03-31 13:57:59.684 +03:00 [DBG] 'CineVaultDbContext' disposed.
+2025-03-31 13:57:59.692 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7171/api/v2/Movies/CreateMovie - 200 null application/json; charset=utf-8 1194.8803ms
+2025-03-31 13:58:13.329 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7171/api/v2/Users/CreateUser - application/json 265
+2025-03-31 13:58:13.334 +03:00 [DBG] 2 candidate(s) found for the request path '/api/v2/Users/CreateUser'
+2025-03-31 13:58:13.336 +03:00 [DBG] Endpoint 'CineVault.API.Controllers.UsersController.CreateUser (CineVault.API)' with route pattern 'api/v{v:apiVersion}/Users/CreateUser' is valid for the request path '/api/v2/Users/CreateUser'
+2025-03-31 13:58:13.338 +03:00 [DBG] Endpoint 'CineVault.API.Controllers.UsersController.CreateUser (CineVault.API)' with route pattern 'api/v{v:apiVersion}/Users/CreateUser' is valid for the request path '/api/v2/Users/CreateUser'
+2025-03-31 13:58:13.341 +03:00 [DBG] Request matched endpoint 'CineVault.API.Controllers.UsersController.CreateUser (CineVault.API)'
+2025-03-31 13:58:13.343 +03:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-03-31 13:58:13.347 +03:00 [INF] Req start: POST /api/v2/Users/CreateUser
+2025-03-31 13:58:13.348 +03:00 [INF] Executing endpoint 'CineVault.API.Controllers.UsersController.CreateUser (CineVault.API)'
+2025-03-31 13:58:13.361 +03:00 [INF] Route matched with {action = "CreateUser", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[CineVault.API.Controllers.Responses.ApiResponse`1[System.Int32]]] CreateUser(CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.UserRequest]) on controller CineVault.API.Controllers.UsersController (CineVault.API).
+2025-03-31 13:58:13.363 +03:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-03-31 13:58:13.364 +03:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-03-31 13:58:13.365 +03:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-03-31 13:58:13.367 +03:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-03-31 13:58:13.369 +03:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-03-31 13:58:13.371 +03:00 [DBG] Executing controller factory for controller CineVault.API.Controllers.UsersController (CineVault.API)
+2025-03-31 13:58:13.380 +03:00 [DBG] Executed controller factory for controller CineVault.API.Controllers.UsersController (CineVault.API)
+2025-03-31 13:58:13.382 +03:00 [DBG] Attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.UserRequest]' ...
+2025-03-31 13:58:13.385 +03:00 [DBG] Attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.UserRequest]' using the name '' in request data ...
+2025-03-31 13:58:13.387 +03:00 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2025-03-31 13:58:13.392 +03:00 [DBG] Connection id "0HNBG8BBB1SB7", Request id "0HNBG8BBB1SB7:0000000F": started reading request body.
+2025-03-31 13:58:13.393 +03:00 [DBG] Connection id "0HNBG8BBB1SB7", Request id "0HNBG8BBB1SB7:0000000F": done reading request body.
+2025-03-31 13:58:13.396 +03:00 [DBG] JSON input formatter succeeded, deserializing to type 'CineVault.API.Controllers.Requests.ApiRequest`1[[CineVault.API.Controllers.Requests.UserRequest, CineVault.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'
+2025-03-31 13:58:13.397 +03:00 [DBG] Done attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.UserRequest]'.
+2025-03-31 13:58:13.399 +03:00 [DBG] Done attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.UserRequest]'.
+2025-03-31 13:58:13.400 +03:00 [DBG] Attempting to validate the bound parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.UserRequest]' ...
+2025-03-31 13:58:13.408 +03:00 [DBG] Done attempting to validate the bound parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.UserRequest]'.
+2025-03-31 13:58:13.414 +03:00 [INF] CreateUser username:string
+2025-03-31 13:58:13.456 +03:00 [DBG] Entity Framework Core 9.0.0 initialized 'CineVaultDbContext' using provider 'Microsoft.EntityFrameworkCore.InMemory:9.0.0' with options: StoreName=Development Movie database connection string 
+2025-03-31 13:58:13.464 +03:00 [DBG] 'CineVaultDbContext' generated a value for the property 'User.Id'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:58:13.475 +03:00 [DBG] Context 'CineVaultDbContext' started tracking 'User' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:58:13.476 +03:00 [DBG] SaveChanges starting for 'CineVaultDbContext'.
+2025-03-31 13:58:13.479 +03:00 [DBG] DetectChanges starting for 'CineVaultDbContext'.
+2025-03-31 13:58:13.483 +03:00 [DBG] DetectChanges completed for 'CineVaultDbContext'.
+2025-03-31 13:58:13.485 +03:00 [INF] Saved 1 entities to in-memory store.
+2025-03-31 13:58:13.488 +03:00 [DBG] An entity of type 'User' tracked by 'CineVaultDbContext' changed state from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:58:13.490 +03:00 [DBG] SaveChanges completed for 'CineVaultDbContext' with 1 entities written to the database.
+2025-03-31 13:58:13.492 +03:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-03-31 13:58:13.494 +03:00 [DBG] Attempting to select an output formatter based on Accept header '["text/plain"]'.
+2025-03-31 13:58:13.495 +03:00 [DBG] Could not find an output formatter based on content negotiation. Accepted types were (["text/plain"])
+2025-03-31 13:58:13.496 +03:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-03-31 13:58:13.497 +03:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-03-31 13:58:13.497 +03:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-03-31 13:58:13.499 +03:00 [INF] Executing OkObjectResult, writing value of type 'CineVault.API.Controllers.Responses.ApiResponse`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-31 13:58:13.501 +03:00 [INF] Executed action CineVault.API.Controllers.UsersController.CreateUser (CineVault.API) in 129.6062ms
+2025-03-31 13:58:13.502 +03:00 [INF] Executed endpoint 'CineVault.API.Controllers.UsersController.CreateUser (CineVault.API)'
+2025-03-31 13:58:13.504 +03:00 [INF] Req done: POST /api/v2/Users/CreateUser 200 in 156 ms
+2025-03-31 13:58:13.505 +03:00 [DBG] 'CineVaultDbContext' disposed.
+2025-03-31 13:58:13.506 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7171/api/v2/Users/CreateUser - 200 null application/json; charset=utf-8 177.743ms
+2025-03-31 13:58:44.887 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7171/api/v2/Reviews/CreateReview - application/json 267
+2025-03-31 13:58:44.913 +03:00 [DBG] 2 candidate(s) found for the request path '/api/v2/Reviews/CreateReview'
+2025-03-31 13:58:44.914 +03:00 [DBG] Endpoint 'CineVault.API.Controllers.ReviewsController.CreateReview (CineVault.API)' with route pattern 'api/v{v:apiVersion}/Reviews/CreateReview' is valid for the request path '/api/v2/Reviews/CreateReview'
+2025-03-31 13:58:44.916 +03:00 [DBG] Endpoint 'CineVault.API.Controllers.ReviewsController.CreateReview (CineVault.API)' with route pattern 'api/v{v:apiVersion}/Reviews/CreateReview' is valid for the request path '/api/v2/Reviews/CreateReview'
+2025-03-31 13:58:44.918 +03:00 [DBG] Request matched endpoint 'CineVault.API.Controllers.ReviewsController.CreateReview (CineVault.API)'
+2025-03-31 13:58:44.919 +03:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-03-31 13:58:44.923 +03:00 [INF] Req start: POST /api/v2/Reviews/CreateReview
+2025-03-31 13:58:44.924 +03:00 [INF] Executing endpoint 'CineVault.API.Controllers.ReviewsController.CreateReview (CineVault.API)'
+2025-03-31 13:58:44.929 +03:00 [INF] Route matched with {action = "CreateReview", controller = "Reviews"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[CineVault.API.Controllers.Responses.ApiResponse`1[System.Int32]]] CreateReview(CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.ReviewRequest]) on controller CineVault.API.Controllers.ReviewsController (CineVault.API).
+2025-03-31 13:58:44.931 +03:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-03-31 13:58:44.932 +03:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-03-31 13:58:44.933 +03:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-03-31 13:58:44.934 +03:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-03-31 13:58:44.936 +03:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-03-31 13:58:44.937 +03:00 [DBG] Executing controller factory for controller CineVault.API.Controllers.ReviewsController (CineVault.API)
+2025-03-31 13:58:44.943 +03:00 [DBG] Executed controller factory for controller CineVault.API.Controllers.ReviewsController (CineVault.API)
+2025-03-31 13:58:44.944 +03:00 [DBG] Attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.ReviewRequest]' ...
+2025-03-31 13:58:44.945 +03:00 [DBG] Attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.ReviewRequest]' using the name '' in request data ...
+2025-03-31 13:58:44.946 +03:00 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2025-03-31 13:58:44.949 +03:00 [DBG] Connection id "0HNBG8BBB1SB7", Request id "0HNBG8BBB1SB7:00000011": started reading request body.
+2025-03-31 13:58:44.950 +03:00 [DBG] Connection id "0HNBG8BBB1SB7", Request id "0HNBG8BBB1SB7:00000011": done reading request body.
+2025-03-31 13:58:44.959 +03:00 [DBG] JSON input formatter succeeded, deserializing to type 'CineVault.API.Controllers.Requests.ApiRequest`1[[CineVault.API.Controllers.Requests.ReviewRequest, CineVault.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'
+2025-03-31 13:58:44.960 +03:00 [DBG] Done attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.ReviewRequest]'.
+2025-03-31 13:58:44.961 +03:00 [DBG] Done attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.ReviewRequest]'.
+2025-03-31 13:58:44.962 +03:00 [DBG] Attempting to validate the bound parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.ReviewRequest]' ...
+2025-03-31 13:58:44.963 +03:00 [DBG] Done attempting to validate the bound parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest`1[CineVault.API.Controllers.Requests.ReviewRequest]'.
+2025-03-31 13:58:44.966 +03:00 [INF] CreateReview movieId:1 userId:1
+2025-03-31 13:58:44.984 +03:00 [DBG] Entity Framework Core 9.0.0 initialized 'CineVaultDbContext' using provider 'Microsoft.EntityFrameworkCore.InMemory:9.0.0' with options: StoreName=Development Movie database connection string 
+2025-03-31 13:58:44.992 +03:00 [DBG] 'CineVaultDbContext' generated a value for the property 'Review.Id'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:58:45.007 +03:00 [DBG] Context 'CineVaultDbContext' started tracking 'Review' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:58:45.008 +03:00 [DBG] SaveChanges starting for 'CineVaultDbContext'.
+2025-03-31 13:58:45.010 +03:00 [DBG] DetectChanges starting for 'CineVaultDbContext'.
+2025-03-31 13:58:45.015 +03:00 [DBG] DetectChanges completed for 'CineVaultDbContext'.
+2025-03-31 13:58:45.016 +03:00 [INF] Saved 1 entities to in-memory store.
+2025-03-31 13:58:45.017 +03:00 [DBG] An entity of type 'Review' tracked by 'CineVaultDbContext' changed state from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:58:45.018 +03:00 [DBG] SaveChanges completed for 'CineVaultDbContext' with 1 entities written to the database.
+2025-03-31 13:58:45.021 +03:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-03-31 13:58:45.025 +03:00 [DBG] Attempting to select an output formatter based on Accept header '["text/plain"]'.
+2025-03-31 13:58:45.027 +03:00 [DBG] Could not find an output formatter based on content negotiation. Accepted types were (["text/plain"])
+2025-03-31 13:58:45.029 +03:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-03-31 13:58:45.030 +03:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-03-31 13:58:45.031 +03:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-03-31 13:58:45.032 +03:00 [INF] Executing OkObjectResult, writing value of type 'CineVault.API.Controllers.Responses.ApiResponse`1[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-31 13:58:45.033 +03:00 [INF] Executed action CineVault.API.Controllers.ReviewsController.CreateReview (CineVault.API) in 96.2858ms
+2025-03-31 13:58:45.034 +03:00 [INF] Executed endpoint 'CineVault.API.Controllers.ReviewsController.CreateReview (CineVault.API)'
+2025-03-31 13:58:45.035 +03:00 [INF] Req done: POST /api/v2/Reviews/CreateReview 200 in 112 ms
+2025-03-31 13:58:45.037 +03:00 [DBG] 'CineVaultDbContext' disposed.
+2025-03-31 13:58:45.039 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7171/api/v2/Reviews/CreateReview - 200 null application/json; charset=utf-8 152.0806ms
+2025-03-31 13:59:00.006 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7171/api/v2/Movies/GetMovies - application/json 174
+2025-03-31 13:59:00.009 +03:00 [DBG] 1 candidate(s) found for the request path '/api/v2/Movies/GetMovies'
+2025-03-31 13:59:00.010 +03:00 [DBG] Endpoint 'CineVault.API.Controllers.MoviesController.GetMovies (CineVault.API)' with route pattern 'api/v{v:apiVersion}/Movies/GetMovies' is valid for the request path '/api/v2/Movies/GetMovies'
+2025-03-31 13:59:00.013 +03:00 [DBG] Request matched endpoint 'CineVault.API.Controllers.MoviesController.GetMovies (CineVault.API)'
+2025-03-31 13:59:00.014 +03:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2025-03-31 13:59:00.016 +03:00 [INF] Req start: POST /api/v2/Movies/GetMovies
+2025-03-31 13:59:00.018 +03:00 [INF] Executing endpoint 'CineVault.API.Controllers.MoviesController.GetMovies (CineVault.API)'
+2025-03-31 13:59:00.030 +03:00 [INF] Route matched with {action = "GetMovies", controller = "Movies"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[CineVault.API.Controllers.Responses.ApiResponse`1[System.Collections.Generic.ICollection`1[CineVault.API.Controllers.Responses.MovieResponse]]]] GetMovies(CineVault.API.Controllers.Requests.ApiRequest) on controller CineVault.API.Controllers.MoviesController (CineVault.API).
+2025-03-31 13:59:00.032 +03:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2025-03-31 13:59:00.034 +03:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2025-03-31 13:59:00.037 +03:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-03-31 13:59:00.041 +03:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2025-03-31 13:59:00.042 +03:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)","Asp.Versioning.ReportApiVersionsAttribute (Order: 0)"]
+2025-03-31 13:59:00.044 +03:00 [DBG] Executing controller factory for controller CineVault.API.Controllers.MoviesController (CineVault.API)
+2025-03-31 13:59:00.045 +03:00 [DBG] Executed controller factory for controller CineVault.API.Controllers.MoviesController (CineVault.API)
+2025-03-31 13:59:00.046 +03:00 [DBG] Attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest' ...
+2025-03-31 13:59:00.047 +03:00 [DBG] Attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest' using the name '' in request data ...
+2025-03-31 13:59:00.048 +03:00 [DBG] Selected input formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter' for content type 'application/json'.
+2025-03-31 13:59:00.050 +03:00 [DBG] Connection id "0HNBG8BBB1SB7", Request id "0HNBG8BBB1SB7:00000013": started reading request body.
+2025-03-31 13:59:00.051 +03:00 [DBG] Connection id "0HNBG8BBB1SB7", Request id "0HNBG8BBB1SB7:00000013": done reading request body.
+2025-03-31 13:59:00.054 +03:00 [DBG] JSON input formatter succeeded, deserializing to type 'CineVault.API.Controllers.Requests.ApiRequest'
+2025-03-31 13:59:00.054 +03:00 [DBG] Done attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest'.
+2025-03-31 13:59:00.055 +03:00 [DBG] Done attempting to bind parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest'.
+2025-03-31 13:59:00.057 +03:00 [DBG] Attempting to validate the bound parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest' ...
+2025-03-31 13:59:00.063 +03:00 [DBG] Done attempting to validate the bound parameter 'request' of type 'CineVault.API.Controllers.Requests.ApiRequest'.
+2025-03-31 13:59:00.066 +03:00 [INF] GetMovies
+2025-03-31 13:59:00.069 +03:00 [DBG] Entity Framework Core 9.0.0 initialized 'CineVaultDbContext' using provider 'Microsoft.EntityFrameworkCore.InMemory:9.0.0' with options: StoreName=Development Movie database connection string 
+2025-03-31 13:59:00.107 +03:00 [DBG] Compiling query expression: 
+'DbSet<Movie>()
+    .Include(m => m.Reviews)'
+2025-03-31 13:59:00.179 +03:00 [DBG] Including navigation: 'Movie.Reviews'.
+2025-03-31 13:59:00.320 +03:00 [DBG] Generated query execution expression: 
+'queryContext => new QueryingEnumerable<Movie>(
+    queryContext, 
+    InMemoryShapedQueryCompilingExpressionVisitor.Table(
+        queryContext: queryContext, 
+        entityType: EntityType: Movie)
+        .Select(valueBuffer => new ValueBuffer(new object[]
+        { 
+            (object)ExpressionExtensions.ValueBufferTryReadValue<int>(
+                valueBuffer: valueBuffer, 
+                index: 0, 
+                property: Property: Movie.Id (int) Required PK AfterSave:Throw ValueGenerated.OnAdd), 
+            ExpressionExtensions.ValueBufferTryReadValue<string>(
+                valueBuffer: valueBuffer, 
+                index: 1, 
+                property: Property: Movie.Description (string)), 
+            ExpressionExtensions.ValueBufferTryReadValue<string>(
+                valueBuffer: valueBuffer, 
+                index: 2, 
+                property: Property: Movie.Director (string)), 
+            ExpressionExtensions.ValueBufferTryReadValue<string>(
+                valueBuffer: valueBuffer, 
+                index: 3, 
+                property: Property: Movie.Genre (string)), 
+            (object)ExpressionExtensions.ValueBufferTryReadValue<DateOnly?>(
+                valueBuffer: valueBuffer, 
+                index: 4, 
+                property: Property: Movie.ReleaseDate (DateOnly?)), 
+            ExpressionExtensions.ValueBufferTryReadValue<string>(
+                valueBuffer: valueBuffer, 
+                index: 5, 
+                property: Property: Movie.Title (string) Required), 
+            InMemoryShapedQueryCompilingExpressionVisitor.Table(
+                queryContext: queryContext, 
+                entityType: EntityType: Review)
+                .Where(valueBuffer => (int?)ExpressionExtensions.ValueBufferTryReadValue<int>(
+                    valueBuffer: valueBuffer, 
+                    index: 0, 
+                    property: Property: Movie.Id (int) Required PK AfterSave:Throw ValueGenerated.OnAdd) != null && object.Equals(
+                    objA: (object)(int?)ExpressionExtensions.ValueBufferTryReadValue<int>(
+                        valueBuffer: valueBuffer, 
+                        index: 0, 
+                        property: Property: Movie.Id (int) Required PK AfterSave:Throw ValueGenerated.OnAdd), 
+                    objB: (object)(int?)ExpressionExtensions.ValueBufferTryReadValue<int>(
+                        valueBuffer: valueBuffer, 
+                        index: 3, 
+                        property: Property: Review.MovieId (int) Required FK)))
+                .Select(valueBuffer => new ValueBuffer(new object[]
+                { 
+                    (object)ExpressionExtensions.ValueBufferTryReadValue<int>(
+                        valueBuffer: valueBuffer, 
+                        index: 0, 
+                        property: Property: Review.Id (int) Required PK AfterSave:Throw ValueGenerated.OnAdd), 
+                    ExpressionExtensions.ValueBufferTryReadValue<string>(
+                        valueBuffer: valueBuffer, 
+                        index: 1, 
+                        property: Property: Review.Comment (string)), 
+                    (object)ExpressionExtensions.ValueBufferTryReadValue<DateTime>(
+                        valueBuffer: valueBuffer, 
+                        index: 2, 
+                        property: Property: Review.CreatedAt (DateTime) Required), 
+                    (object)ExpressionExtensions.ValueBufferTryReadValue<int>(
+                        valueBuffer: valueBuffer, 
+                        index: 3, 
+                        property: Property: Review.MovieId (int) Required FK), 
+                    (object)ExpressionExtensions.ValueBufferTryReadValue<int>(
+                        valueBuffer: valueBuffer, 
+                        index: 4, 
+                        property: Property: Review.Rating (int) Required), 
+                    (object)ExpressionExtensions.ValueBufferTryReadValue<int>(
+                        valueBuffer: valueBuffer, 
+                        index: 5, 
+                        property: Property: Review.UserId (int) Required FK) 
+                })) 
+        })), 
+    Func<QueryContext, ValueBuffer, Movie>, 
+    CineVault.API.Entities.CineVaultDbContext, 
+    False, 
+    True
+)'
+2025-03-31 13:59:00.346 +03:00 [DBG] Context 'CineVaultDbContext' started tracking 'Movie' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:59:00.356 +03:00 [DBG] Context 'CineVaultDbContext' started tracking 'Review' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2025-03-31 13:59:00.388 +03:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2025-03-31 13:59:00.390 +03:00 [DBG] Attempting to select an output formatter based on Accept header '["text/plain"]'.
+2025-03-31 13:59:00.391 +03:00 [DBG] Could not find an output formatter based on content negotiation. Accepted types were (["text/plain"])
+2025-03-31 13:59:00.392 +03:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2025-03-31 13:59:00.393 +03:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2025-03-31 13:59:00.394 +03:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2025-03-31 13:59:00.395 +03:00 [INF] Executing OkObjectResult, writing value of type 'CineVault.API.Controllers.Responses.ApiResponse`1[[System.Collections.Generic.ICollection`1[[CineVault.API.Controllers.Responses.MovieResponse, CineVault.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-03-31 13:59:00.410 +03:00 [INF] Executed action CineVault.API.Controllers.MoviesController.GetMovies (CineVault.API) in 366.4056ms
+2025-03-31 13:59:00.411 +03:00 [INF] Executed endpoint 'CineVault.API.Controllers.MoviesController.GetMovies (CineVault.API)'
+2025-03-31 13:59:00.412 +03:00 [INF] Req done: POST /api/v2/Movies/GetMovies 200 in 395 ms
+2025-03-31 13:59:00.414 +03:00 [DBG] 'CineVaultDbContext' disposed.
+2025-03-31 13:59:00.415 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7171/api/v2/Movies/GetMovies - 200 null application/json; charset=utf-8 409.2262ms

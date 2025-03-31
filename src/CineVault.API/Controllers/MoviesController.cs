@@ -2,6 +2,7 @@
 using CineVault.API.Controllers.Requests;
 using CineVault.API.Controllers.Responses;
 using CineVault.API.Entities;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +15,13 @@ public sealed class MoviesController : ControllerBase
 {
     private readonly CineVaultDbContext dbContext;
     private readonly ILogger<MoviesController> logger;
+    private readonly IMapper mapper;
 
-    public MoviesController(CineVaultDbContext dbContext, ILogger<MoviesController> logger)
+    public MoviesController(CineVaultDbContext dbContext, ILogger<MoviesController> logger, IMapper mapper)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.mapper = mapper;
     }
 
     [HttpGet]
@@ -138,28 +141,17 @@ public sealed class MoviesController : ControllerBase
     {
         this.logger.LogInformation("GetMovies");
 
-        var movies = await this.dbContext.Movies
+        var movies = await dbContext.Movies
             .Include(m => m.Reviews)
-            .Select(m => new MovieResponse
-            {
-                Id = m.Id,
-                Title = m.Title,
-                Description = m.Description,
-                ReleaseDate = m.ReleaseDate,
-                Genre = m.Genre,
-                Director = m.Director,
-                AverageRating = m.Reviews.Count != 0
-                    ? m.Reviews.Average(r => r.Rating)
-                    : 0,
-                ReviewCount = m.Reviews.Count
-            })
             .ToListAsync();
+
+        var moviesResponses = this.mapper.Map<List<MovieResponse>>(movies);
 
         return this.Ok(new ApiResponse<ICollection<MovieResponse>>
         {
             StatusCode = 200,
             Message = "Movies retrieved",
-            Data = movies
+            Data = moviesResponses
         });
     }
 
@@ -181,19 +173,7 @@ public sealed class MoviesController : ControllerBase
             return this.NotFound(new ApiResponse { StatusCode = 404, Message = "Movie not found" });
         }
 
-        var response = new MovieResponse
-        {
-            Id = movie.Id,
-            Title = movie.Title,
-            Description = movie.Description,
-            ReleaseDate = movie.ReleaseDate,
-            Genre = movie.Genre,
-            Director = movie.Director,
-            AverageRating = movie.Reviews.Count != 0
-                ? movie.Reviews.Average(r => r.Rating)
-                : 0,
-            ReviewCount = movie.Reviews.Count
-        };
+        var response = this.mapper.Map<MovieResponse>(movie);
 
         return this.Ok(new ApiResponse<MovieResponse>
         {
@@ -210,14 +190,7 @@ public sealed class MoviesController : ControllerBase
     {
         this.logger.LogInformation("CreateMovie title:{title}", request.Data.Title);
 
-        var movie = new Movie
-        {
-            Title = request.Data.Title,
-            Description = request.Data.Description,
-            ReleaseDate = request.Data.ReleaseDate,
-            Genre = request.Data.Genre,
-            Director = request.Data.Director
-        };
+        var movie = this.mapper.Map<Movie>(request.Data);
 
         await this.dbContext.Movies.AddAsync(movie);
         await this.dbContext.SaveChangesAsync();
@@ -246,11 +219,7 @@ public sealed class MoviesController : ControllerBase
             return this.NotFound(new ApiResponse { StatusCode = 404, Message = "Movie not found" });
         }
 
-        movie.Title = request.Data.Title;
-        movie.Description = request.Data.Description;
-        movie.ReleaseDate = request.Data.ReleaseDate;
-        movie.Genre = request.Data.Genre;
-        movie.Director = request.Data.Director;
+        this.mapper.Map(request.Data, movie);
 
         await this.dbContext.SaveChangesAsync();
 

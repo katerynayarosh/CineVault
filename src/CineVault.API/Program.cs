@@ -1,5 +1,7 @@
+using System.Reflection;
 using Asp.Versioning;
 using CineVault.API.Extensions;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -8,6 +10,9 @@ using Serilog.Events;
 [assembly: ApiController]
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMapster();
+TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
 
 builder.Services.AddCineVaultDbContext(builder.Configuration);
 builder.Services.AddScoped<RequestMonitorMiddleware>();
