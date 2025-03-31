@@ -2,6 +2,7 @@
 using CineVault.API.Controllers.Requests;
 using CineVault.API.Controllers.Responses;
 using CineVault.API.Entities;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +15,13 @@ public sealed class ReviewsController : ControllerBase
 {
     private readonly CineVaultDbContext dbContext;
     private readonly ILogger<ReviewsController> logger;
+    private readonly IMapper mapper;
 
-    public ReviewsController(CineVaultDbContext dbContext, ILogger<ReviewsController> logger)
+    public ReviewsController(CineVaultDbContext dbContext, ILogger<ReviewsController> logger, IMapper mapper)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.mapper = mapper;
     }
 
     [HttpGet]
@@ -149,24 +152,15 @@ public sealed class ReviewsController : ControllerBase
         var reviews = await this.dbContext.Reviews
             .Include(r => r.Movie)
             .Include(r => r.User)
-            .Select(r => new ReviewResponse
-            {
-                Id = r.Id,
-                MovieId = r.MovieId,
-                MovieTitle = r.Movie!.Title,
-                UserId = r.UserId,
-                Username = r.User!.Username,
-                Rating = r.Rating,
-                Comment = r.Comment,
-                CreatedAt = r.CreatedAt
-            })
             .ToListAsync();
+
+        var reviewsResponses = mapper.Map<ICollection<ReviewResponse>>(reviews);
 
         return this.Ok(new ApiResponse<ICollection<ReviewResponse>>
         {
             StatusCode = 200,
             Message = "Reviews retrieved",
-            Data = reviews
+            Data = reviewsResponses
         });
     }
 
@@ -193,17 +187,7 @@ public sealed class ReviewsController : ControllerBase
             });
         }
 
-        var response = new ReviewResponse
-        {
-            Id = review.Id,
-            MovieId = review.MovieId,
-            MovieTitle = review.Movie!.Title,
-            UserId = review.UserId,
-            Username = review.User!.Username,
-            Rating = review.Rating,
-            Comment = review.Comment,
-            CreatedAt = review.CreatedAt
-        };
+        var response = this.mapper.Map<ReviewResponse>(review);
 
         return this.Ok(new ApiResponse<ReviewResponse>
         {
@@ -221,13 +205,7 @@ public sealed class ReviewsController : ControllerBase
         this.logger.LogInformation("CreateReview movieId:{movieId} userId:{userId}",
             request.Data.MovieId, request.Data.UserId);
 
-        var review = new Review
-        {
-            MovieId = request.Data.MovieId,
-            UserId = request.Data.UserId,
-            Rating = request.Data.Rating,
-            Comment = request.Data.Comment
-        };
+        var review = this.mapper.Map<Review>(request.Data);
 
         this.dbContext.Reviews.Add(review);
         await this.dbContext.SaveChangesAsync();
@@ -261,10 +239,7 @@ public sealed class ReviewsController : ControllerBase
             });
         }
 
-        review.MovieId = request.Data.MovieId;
-        review.UserId = request.Data.UserId;
-        review.Rating = request.Data.Rating;
-        review.Comment = request.Data.Comment;
+        this.mapper.Map(request.Data, review);
 
         await this.dbContext.SaveChangesAsync();
 

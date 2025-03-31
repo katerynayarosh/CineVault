@@ -2,6 +2,7 @@
 using CineVault.API.Controllers.Requests;
 using CineVault.API.Controllers.Responses;
 using CineVault.API.Entities;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +15,13 @@ public class UsersController : ControllerBase
 {
     private readonly CineVaultDbContext dbContext;
     private readonly ILogger<UsersController> logger;
+    private readonly IMapper mapper;
 
-    public UsersController(CineVaultDbContext dbContext, ILogger<UsersController> logger)
+    public UsersController(CineVaultDbContext dbContext, ILogger<UsersController> logger, IMapper mapper)
     {
         this.dbContext = dbContext;
         this.logger = logger;
+        this.mapper = mapper;
     }
 
     [HttpGet]
@@ -123,14 +126,15 @@ public class UsersController : ControllerBase
         this.logger.LogInformation("GetUsers");
 
         var users = await this.dbContext.Users
-            .Select(u => new UserResponse { Id = u.Id, Username = u.Username, Email = u.Email })
             .ToListAsync();
+
+        var userResponses = this.mapper.Map<ICollection<UserResponse>>(users);
 
         return this.Ok(new ApiResponse<ICollection<UserResponse>>
         {
             StatusCode = 200,
             Message = "Users retrieved",
-            Data = users
+            Data = userResponses
         });
     }
 
@@ -150,12 +154,7 @@ public class UsersController : ControllerBase
             return this.NotFound(new ApiResponse { StatusCode = 404, Message = "User not found" });
         }
 
-        var response = new UserResponse
-        {
-            Id = user.Id,
-            Username = user.Username,
-            Email = user.Email
-        };
+        var response = this.mapper.Map<UserResponse>(user);
 
         return this.Ok(new ApiResponse<UserResponse>
         {
@@ -171,12 +170,7 @@ public class UsersController : ControllerBase
     {
         this.logger.LogInformation("CreateUser username:{username}", request.Data.Username);
 
-        var user = new User
-        {
-            Username = request.Data.Username,
-            Email = request.Data.Email,
-            Password = request.Data.Password
-        };
+        var user = this.mapper.Map<User>(request.Data);
 
         this.dbContext.Users.Add(user);
         await this.dbContext.SaveChangesAsync();
@@ -205,9 +199,7 @@ public class UsersController : ControllerBase
             return this.NotFound(new ApiResponse { StatusCode = 404, Message = "User not found" });
         }
 
-        user.Username = request.Data.Username;
-        user.Email = request.Data.Email;
-        user.Password = request.Data.Password;
+        this.mapper.Map(request.Data, user);
 
         await this.dbContext.SaveChangesAsync();
 
