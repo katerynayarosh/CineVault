@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CineVault.API.Controllers;
 
+// TODO 4 Реалізувати CRUD для коментарів до відгуків
 [Route("api/v{v:apiVersion}/[controller]/[action]")]
 [ApiVersion(1)]
 [ApiVersion(2)]
@@ -17,7 +18,8 @@ public sealed class ReviewsController : ControllerBase
     private readonly ILogger<ReviewsController> logger;
     private readonly IMapper mapper;
 
-    public ReviewsController(CineVaultDbContext dbContext, ILogger<ReviewsController> logger, IMapper mapper)
+    public ReviewsController(CineVaultDbContext dbContext, ILogger<ReviewsController> logger,
+        IMapper mapper)
     {
         this.dbContext = dbContext;
         this.logger = logger;
@@ -154,7 +156,7 @@ public sealed class ReviewsController : ControllerBase
             .Include(r => r.User)
             .ToListAsync();
 
-        var reviewsResponses = mapper.Map<ICollection<ReviewResponse>>(reviews);
+        var reviewsResponses = this.mapper.Map<ICollection<ReviewResponse>>(reviews);
 
         return this.Ok(new ApiResponse<ICollection<ReviewResponse>>
         {
@@ -205,11 +207,38 @@ public sealed class ReviewsController : ControllerBase
         this.logger.LogInformation("CreateReview movieId:{movieId} userId:{userId}",
             request.Data.MovieId, request.Data.UserId);
 
+        // TODO 4 Додати можливість ставить відгуки з оцінкою-рейтингом (від 1 до 10)
+        if (request.Data.Rating < 1 || request.Data.Rating > 10)
+        {
+            this.logger.LogWarning("BadRequest with rating");
+
+            return this.BadRequest(new ApiResponse
+            {
+                StatusCode = 400,
+                Message = "Rating must be between 1 and 10"
+            });
+        }
+
+        // TODO 6 Заборонити можливість в межах одного фільму певного користувача постити 1 відгук та проставляти 1 оцінку (рейтинг). Якщо такий відгук проставлений, то оновити його
+        var existingReview =
+            await this.dbContext.Reviews
+                .Where(r => r.MovieId == request.Data.MovieId && r.UserId == request.Data.UserId)
+                .FirstOrDefaultAsync();
+        if (existingReview is not null)
+        {
+            this.mapper.Map(request.Data, existingReview);
+
+            await this.dbContext.SaveChangesAsync();
+
+            return this.Ok(new ApiResponse { StatusCode = 200, Message = "Review updated" });
+        }
+
         var review = this.mapper.Map<Review>(request.Data);
 
         this.dbContext.Reviews.Add(review);
         await this.dbContext.SaveChangesAsync();
 
+        // TODO 8 Доробити всі методи сreate, додавши повернення id новоствореного об’єкта сутності або масив ids та назвами фільмів для створених об’єктів
         return this.Ok(new ApiResponse<int>
         {
             StatusCode = 200,
@@ -225,6 +254,18 @@ public sealed class ReviewsController : ControllerBase
     {
         this.logger.LogInformation("UpdateReview id:{id} movieId:{movieId} userId:{userId}", id,
             request.Data.MovieId, request.Data.UserId);
+
+        // TODO 4 Додати можливість ставить відгуки з оцінкою-рейтингом (від 1 до 10)
+        if (request.Data.Rating < 1 || request.Data.Rating > 10)
+        {
+            this.logger.LogWarning("BadRequest with rating");
+
+            return this.BadRequest(new ApiResponse
+            {
+                StatusCode = 400,
+                Message = "Rating must be between 1 and 10"
+            });
+        }
 
         var review = await this.dbContext.Reviews.FindAsync(id);
 

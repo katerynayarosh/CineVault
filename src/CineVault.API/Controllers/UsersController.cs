@@ -17,7 +17,8 @@ public class UsersController : ControllerBase
     private readonly ILogger<UsersController> logger;
     private readonly IMapper mapper;
 
-    public UsersController(CineVaultDbContext dbContext, ILogger<UsersController> logger, IMapper mapper)
+    public UsersController(CineVaultDbContext dbContext, ILogger<UsersController> logger,
+        IMapper mapper)
     {
         this.dbContext = dbContext;
         this.logger = logger;
@@ -175,6 +176,7 @@ public class UsersController : ControllerBase
         this.dbContext.Users.Add(user);
         await this.dbContext.SaveChangesAsync();
 
+        // TODO 8 Доробити всі методи сreate, додавши повернення id новоствореного об’єкта сутності або масив ids та назвами фільмів для створених об’єктів
         return this.Ok(new ApiResponse<int>
         {
             StatusCode = 200,
@@ -225,5 +227,69 @@ public class UsersController : ControllerBase
         await this.dbContext.SaveChangesAsync();
 
         return this.Ok(new ApiResponse { StatusCode = 200, Message = "User deleted" });
+    }
+
+    [HttpPost]
+    [MapToApiVersion(2)]
+    public async Task<ActionResult<ApiResponse<ICollection<UserResponse>>>> SearchUsers(
+        ApiRequest<SearchUsersRequest> request)
+    {
+        this.logger.LogInformation("SearchUsers");
+
+        var query = this.dbContext.Users.AsQueryable();
+
+        // TODO 2 Додати можливість пошуку користувачів за username або email
+        if (!string.IsNullOrEmpty(request.Data.Username))
+        {
+            query = query.Where(u => u.Username.Contains(request.Data.Username));
+        }
+
+        if (!string.IsNullOrEmpty(request.Data.Email))
+        {
+            query = query.Where(u => u.Email.Contains(request.Data.Email));
+        }
+
+        // TODO 2 Реалізувати фільтрацію за датою створення та сортування результатів
+        if (request.Data.FromDate.HasValue)
+        {
+            query = query.Where(u => u.CreatedAt >= request.Data.FromDate);
+        }
+
+        if (request.Data.ToDate.HasValue)
+        {
+            query = query.Where(u => u.CreatedAt <= request.Data.ToDate);
+        }
+
+        string sortProperty = request.Data.SortBy?.Trim() ?? "Username";
+        string sortDirection = request.Data.SortDirection?.Trim().ToLower() ?? "asc";
+        query = sortDirection switch
+        {
+            "asc" => sortProperty switch
+            {
+                "Email" => query.OrderBy(u => u.Email),
+                _ => query.OrderBy(u => u.Username)
+            },
+            "desc" => sortProperty switch
+            {
+                "Email" => query.OrderByDescending(u => u.Email),
+                _ => query.OrderByDescending(u => u.Username)
+            },
+            _ => query.OrderBy(u => u.Username)
+        };
+
+        // TODO 2 Додати пагінацію для результатів пошуку
+        var users = await query
+            .Skip(((request.Data.PageNumber ?? 1) - 1) * (request.Data.PageSize ?? 10))
+            .Take(request.Data.PageSize ?? 10)
+            .ToListAsync();
+
+        var userResponses = this.mapper.Map<ICollection<UserResponse>>(users);
+
+        return this.Ok(new ApiResponse<ICollection<UserResponse>>
+        {
+            StatusCode = 200,
+            Message = "Users retrieved",
+            Data = userResponses
+        });
     }
 }
