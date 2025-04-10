@@ -134,7 +134,8 @@ public sealed class MoviesController : ControllerBase
         await this.dbContext.SaveChangesAsync();
         return this.Ok();
     }
-
+    
+    // TODO 13 Додати AsNoTracking для читання даних
     [HttpPost]
     [MapToApiVersion(2)]
     public async Task<ActionResult<ApiResponse<ICollection<MovieResponse>>>> GetMovies(
@@ -143,6 +144,7 @@ public sealed class MoviesController : ControllerBase
         this.logger.LogInformation("GetMovies");
 
         var movies = await this.dbContext.Movies
+            .AsNoTracking() // Вимкнено відстеження змін
             .Include(m => m.Reviews)
             .ToListAsync();
 
@@ -150,12 +152,11 @@ public sealed class MoviesController : ControllerBase
 
         return this.Ok(new ApiResponse<ICollection<MovieResponse>>
         {
-            StatusCode = 200,
-            Message = "Movies retrieved",
-            Data = moviesResponses
+            StatusCode = 200, Message = "Movies retrieved", Data = moviesResponses
         });
     }
 
+    // TODO 13 Оптимізація Select для завантаження лише необхідних полів
     [HttpPost("{id}")]
     [MapToApiVersion(2)]
     public async Task<ActionResult<ApiResponse<MovieResponse>>> GetMovieById(int id,
@@ -164,23 +165,40 @@ public sealed class MoviesController : ControllerBase
         this.logger.LogInformation("GetMovieById id:{id}", id);
 
         var movie = await this.dbContext.Movies
-            .Include(m => m.Reviews)
-            .FirstOrDefaultAsync(m => m.Id == id);
+            .AsNoTracking()
+            .Where(m => m.Id == id)
+            .Select(m => new 
+            {
+                m.Id,
+                m.Title,
+                m.Description,
+                m.ReleaseDate,
+                m.Genre,
+                m.Director,
+                Reviews = m.Reviews.Select(r => new { r.Rating })
+            })
+            .FirstOrDefaultAsync();
 
-        if (movie is null)
+        if (movie == null)
         {
-            this.logger.LogWarning("NotFound id:{id}", id);
-
-            return this.NotFound(new ApiResponse { StatusCode = 404, Message = "Movie not found" });
+            return this.NotFound(new ApiResponse { StatusCode = 404, Message = $"Movie with ID {id} not found" });
         }
 
-        var response = this.mapper.Map<MovieResponse>(movie);
+        var response = new MovieResponse
+        {
+            Id = movie.Id,
+            Title = movie.Title,
+            Description = movie.Description,
+            ReleaseDate = movie.ReleaseDate,
+            Genre = movie.Genre,
+            Director = movie.Director,
+            AverageRating = movie.Reviews.Any() ? movie.Reviews.Average(r => r.Rating) : 0,
+            ReviewCount = movie.Reviews.Count()
+        };
 
         return this.Ok(new ApiResponse<MovieResponse>
         {
-            StatusCode = 200,
-            Message = "Movies retrieved",
-            Data = response
+            StatusCode = 200, Message = "Movie retrieved", Data = response
         });
     }
 
@@ -196,12 +214,9 @@ public sealed class MoviesController : ControllerBase
         await this.dbContext.Movies.AddAsync(movie);
         await this.dbContext.SaveChangesAsync();
 
-        // TODO 8 Доробити всі методи сreate, додавши повернення id новоствореного об’єкта сутності або масив ids та назвами фільмів для створених об’єктів
         return this.Ok(new ApiResponse<int>
         {
-            StatusCode = 200,
-            Message = "Movie created",
-            Data = movie.Id
+            StatusCode = 200, Message = "Movie created", Data = movie.Id
         });
     }
 
@@ -218,7 +233,7 @@ public sealed class MoviesController : ControllerBase
         {
             this.logger.LogWarning("NotFound id:{id}", id);
 
-            return this.NotFound(new ApiResponse { StatusCode = 404, Message = "Movie not found" });
+            return this.NotFound(new ApiResponse { StatusCode = 404, Message = $"Movie with ID {id} not found in catalog" });
         }
 
         this.mapper.Map(request.Data, movie);
@@ -228,28 +243,33 @@ public sealed class MoviesController : ControllerBase
         return this.Ok(new ApiResponse { StatusCode = 200, Message = "Movie updated" });
     }
 
+    // TODO 13 Скомпільований запит для часто використовуваного методу
+    private static readonly Func<CineVaultDbContext, int, Task<Movie?>> GetMovieByIdCompiled =
+        EF.CompileAsyncQuery((CineVaultDbContext context, int id) =>
+            context.Movies
+                .AsNoTracking()
+                .FirstOrDefault(m => m.Id == id));
+
+    // TODO 13 Скомпільований запит для часто використовуваного методу
     [HttpDelete("{id}")]
     [MapToApiVersion(2)]
     public async Task<ActionResult<ApiResponse>> DeleteMovie(ApiRequest request, int id)
     {
         this.logger.LogInformation("DeleteMovie id:{id}", id);
 
-        var movie = await this.dbContext.Movies.FindAsync(id);
+        var movie = await GetMovieByIdCompiled(this.dbContext, id);
 
         if (movie is null)
         {
-            this.logger.LogWarning("NotFound id:{id}", id);
-
-            return this.NotFound(new ApiResponse { StatusCode = 404, Message = "Movie not found" });
+            return this.NotFound(new ApiResponse { StatusCode = 404, Message = $"Movie not found" });
         }
 
-        this.dbContext.Movies.Remove(movie);
+        movie.IsDeleted = true;
         await this.dbContext.SaveChangesAsync();
 
         return this.Ok(new ApiResponse { StatusCode = 200, Message = "Movie deleted" });
     }
 
-    // TODO 1 Додати реалізацію масового завантаження фільмів
     [HttpPost]
     [MapToApiVersion(2)]
     public async Task<ActionResult<ApiResponse<ICollection<int>>>> CreateMovies(
@@ -262,7 +282,6 @@ public sealed class MoviesController : ControllerBase
         await this.dbContext.Movies.AddRangeAsync(movies);
         await this.dbContext.SaveChangesAsync();
 
-        // TODO 8 Доробити всі методи сreate, додавши повернення id новоствореного об’єкта сутності або масив ids та назвами фільмів для створених об’єктів
         return this.Ok(new ApiResponse<ICollection<int>>
         {
             StatusCode = 200,
@@ -282,7 +301,6 @@ public sealed class MoviesController : ControllerBase
             .Include(m => m.Reviews)
             .AsQueryable();
 
-        // TODO 3 Реалізувати пошук фільмів за жанром, назвою або режисером
         if (!string.IsNullOrEmpty(request.Data.Title))
         {
             query = query.Where(m => m.Title.Contains(request.Data.Title));
@@ -299,7 +317,6 @@ public sealed class MoviesController : ControllerBase
                 m.Director != null && m.Director.Contains(request.Data.Director));
         }
 
-        // TODO 3 Додати фільтрацію за роком випуску та середнім рейтингом
         if (request.Data.Year.HasValue)
         {
             query = query.Where(m =>
@@ -318,13 +335,10 @@ public sealed class MoviesController : ControllerBase
 
         return this.Ok(new ApiResponse<ICollection<MovieResponse>>
         {
-            StatusCode = 200,
-            Message = "Movies retrieved",
-            Data = response
+            StatusCode = 200, Message = "Movies retrieved", Data = response
         });
     }
 
-    // TODO 7 Додати реалізацію для масового видалення за списком ID
     [HttpPost]
     [MapToApiVersion(2)]
     public async Task<ActionResult<ApiResponse<DeleteMoviesResponse>>> DeleteMovies(
@@ -338,8 +352,8 @@ public sealed class MoviesController : ControllerBase
 
             return this.BadRequest(new ApiResponse
             {
-                StatusCode = 400,
-                Message = "List of movie IDs is required"
+                StatusCode = 400, Message = "Minimum one valid movie ID required for deletion"
+                
             });
         }
 
@@ -353,7 +367,6 @@ public sealed class MoviesController : ControllerBase
         var existingIds = existingMovies.Select(m => m.Id).ToList();
         var notFoundIds = ids.Except(existingIds).ToList();
 
-        // TODO 7 Додати перевірку, чи є фільми у відгуках, перед видаленням. Якщо є, то не видаляти такий, а виводити попередження, а інші фільми з масиву видалити
         var hasReviewsIds = existingMovies
             .Where(m => m.Reviews.Any())
             .Select(m => m.Id)
@@ -365,7 +378,10 @@ public sealed class MoviesController : ControllerBase
 
         if (moviesToDelete.Any())
         {
-            this.dbContext.Movies.RemoveRange(moviesToDelete);
+            foreach (var movie in moviesToDelete)
+            {
+                movie.IsDeleted = true;
+            }
             await this.dbContext.SaveChangesAsync();
         }
 
@@ -373,16 +389,116 @@ public sealed class MoviesController : ControllerBase
 
         var response = new DeleteMoviesResponse
         {
-            DeletedIds = deletedIds,
-            NotFoundIds = notFoundIds,
-            HasReviewsIds = hasReviewsIds
+            DeletedIds = deletedIds, NotFoundIds = notFoundIds, HasReviewsIds = hasReviewsIds
         };
 
         return this.Ok(new ApiResponse<DeleteMoviesResponse>
         {
-            StatusCode = 200,
-            Message = "Movies deleted",
-            Data = response
+            StatusCode = 200, Message = "Movies deleted", Data = response
+        });
+    }
+
+    // TODO 9 GetMovieDetails
+    [HttpPost("{id}")]
+    [MapToApiVersion(2)]
+    public async Task<ActionResult<ApiResponse<GetMovieDetailsResponse>>> GetMovieDetails(int id,
+        ApiRequest request)
+    {
+        this.logger.LogInformation("GetMovieDetails id:{id}", id);
+
+        var movie = await this.dbContext.Movies
+            .Include(m => m.Reviews)
+            .ThenInclude(r => r.User)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+        if (movie == null)
+        {
+            this.logger.LogWarning("Movie not found id:{id}", id);
+            return this.NotFound(new ApiResponse { 
+                StatusCode = 404,
+                Message = $"Movie details unavailable: ID {id} not found" 
+            });
+        }
+
+        var response = new GetMovieDetailsResponse
+        {
+            Id = movie.Id,
+            Title = movie.Title,
+            Description = movie.Description!,
+            ReleaseDate = movie.ReleaseDate,
+            Genre = movie.Genre!,
+            Director = movie.Director!,
+            AverageRating = movie.Reviews.Any() ? (decimal)movie.Reviews.Average(r => r.Rating) : 0,
+            ReviewCount = movie.Reviews.Count,
+            RecentReviews = movie.Reviews
+                .OrderByDescending(r => r.CreatedAt)
+                .Take(5)
+                .Select(r => new InternalReviewResponse
+                {
+                    Username = r.User?.Username ?? "Deleted User",
+                    Rating = r.Rating,
+                    Comment = r.Comment!,
+                    CreatedAt = r.CreatedAt
+                })
+                .ToList()
+        };
+
+        return this.Ok(new ApiResponse<GetMovieDetailsResponse>
+        {
+            StatusCode = 200, Message = "Movie details retrieved", Data = response
+        });
+    }
+
+    // TODO 9 SearchMovies
+    [HttpPost]
+    [MapToApiVersion(2)]
+    public async Task<ActionResult<ApiResponse<ICollection<MovieResponse>>>> SearchMovies2(
+        ApiRequest<SearchMovies2Request> request)
+    {
+        this.logger.LogInformation("SearchMovies");
+
+        var query = this.dbContext.Movies
+            .Include(m => m.Reviews)
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(request.Data.SearchText))
+        {
+            string searchText = request.Data.SearchText.ToLower();
+            query = query.Where(m =>
+                m.Description != null && m.Director != null &&
+                (m.Title.ToLower().Contains(searchText) ||
+                 m.Description.ToLower().Contains(searchText) ||
+                 m.Director.ToLower().Contains(searchText)));
+        }
+
+        if (!string.IsNullOrEmpty(request.Data.Genre))
+        {
+            query = query.Where(m => m.Genre == request.Data.Genre);
+        }
+
+        if (request.Data.MinRating.HasValue)
+        {
+            query = query.Where(m =>
+                (decimal?)m.Reviews.Average(r => r.Rating) >= request.Data.MinRating ||
+                (!m.Reviews.Any() && request.Data.MinRating <= 0));
+        }
+
+        if (request.Data.ReleaseDateFrom.HasValue)
+        {
+            query = query.Where(m => m.ReleaseDate >= request.Data.ReleaseDateFrom);
+        }
+
+        if (request.Data.ReleaseDateTo.HasValue)
+        {
+            query = query.Where(m => m.ReleaseDate <= request.Data.ReleaseDateTo);
+        }
+
+        var movies = await query.ToListAsync();
+        var response = this.mapper.Map<List<MovieResponse>>(movies);
+
+        return this.Ok(new ApiResponse<ICollection<MovieResponse>>
+        {
+            StatusCode = 200, Message = "Movies retrieved", Data = response
         });
     }
 }

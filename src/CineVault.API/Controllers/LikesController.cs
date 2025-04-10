@@ -32,7 +32,6 @@ public sealed class LikesController : ControllerBase
     {
         this.logger.LogInformation("CreateLike");
 
-        // TODO 6 «аборонити можлив≥сть в межах одного ф≥льму певного користувача постити 1 в≥дгук та проставл€ти 1 оц≥нку (рейтинг). якщо такий в≥дгук проставлений, то оновити його
         var existingLike =
             await this.dbContext.Likes
                 .Where(l => l.ReviewId == request.Data.ReviewId && l.UserId == request.Data.UserId)
@@ -65,7 +64,7 @@ public sealed class LikesController : ControllerBase
             return this.NotFound(new ApiResponse { StatusCode = 404, Message = "Like not found" });
         }
 
-        this.dbContext.Likes.Remove(like);
+        like.IsDeleted = true;
         await this.dbContext.SaveChangesAsync();
 
         return this.Ok(new ApiResponse { StatusCode = 200, Message = "Like deleted" });

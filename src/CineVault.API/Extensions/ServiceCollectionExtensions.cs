@@ -8,6 +8,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCineVaultDbContext(this IServiceCollection services,
         IConfiguration configuration)
     {
+        // TODO 1 Налаштувати DbContext для роботи з базою даних
         services.AddDbContext<CineVaultDbContext>(options =>
         {
             string? connectionString = configuration.GetConnectionString("CineVaultDb");
@@ -17,7 +18,7 @@ public static class ServiceCollectionExtensions
                 throw new InvalidOperationException("Connection string is not configured");
             }
 
-            options.UseInMemoryDatabase(connectionString);
+            options.UseSqlServer(connectionString);
         });
 
         return services;

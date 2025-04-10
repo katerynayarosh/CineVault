@@ -9,4 +9,7 @@ public sealed class Movie
     public string? Genre { get; set; }
     public string? Director { get; set; }
     public ICollection<Review> Reviews { get; set; } = [];
+    public ICollection<Actor> Actors { get; set; } = [];
+    // TODO 10 Налаштувати підтримку "м'якого видалення" (Soft Delete) для сутностей. Додати поле IsDeleted (property) до кожної сутності
+    public bool IsDeleted { get; set; }
 }
