@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CineVault.API.Controllers;
 
-// TODO 4 Реалізувати CRUD для коментарів до відгуків
 [Route("api/v{v:apiVersion}/[controller]/[action]")]
 [ApiVersion(1)]
 [ApiVersion(2)]
@@ -144,6 +143,7 @@ public sealed class ReviewsController : ControllerBase
         return this.Ok();
     }
 
+    // TODO 13 Об'єднання запитів замість N+1
     [HttpPost]
     [MapToApiVersion(2)]
     public async Task<ActionResult<ApiResponse<ICollection<ReviewResponse>>>> GetReviews(
@@ -152,17 +152,25 @@ public sealed class ReviewsController : ControllerBase
         this.logger.LogInformation("GetReviews");
 
         var reviews = await this.dbContext.Reviews
+            .AsNoTracking()
             .Include(r => r.Movie)
             .Include(r => r.User)
+            .Select(r => new ReviewResponse // Вибірка лише потрібних полів
+            {
+                Id = r.Id,
+                MovieId = r.MovieId,
+                MovieTitle = r.Movie!.Title,
+                UserId = r.UserId,
+                Username = r.User!.Username,
+                Rating = r.Rating,
+                Comment = r.Comment,
+                CreatedAt = r.CreatedAt
+            })
             .ToListAsync();
-
-        var reviewsResponses = this.mapper.Map<ICollection<ReviewResponse>>(reviews);
 
         return this.Ok(new ApiResponse<ICollection<ReviewResponse>>
         {
-            StatusCode = 200,
-            Message = "Reviews retrieved",
-            Data = reviewsResponses
+            StatusCode = 200, Message = "Reviews retrieved", Data = reviews
         });
     }
 
@@ -184,8 +192,7 @@ public sealed class ReviewsController : ControllerBase
 
             return this.NotFound(new ApiResponse
             {
-                StatusCode = 404,
-                Message = "Review not found"
+                StatusCode = 404, Message = $"Review with ID {id} not found in system"
             });
         }
 
@@ -193,9 +200,7 @@ public sealed class ReviewsController : ControllerBase
 
         return this.Ok(new ApiResponse<ReviewResponse>
         {
-            StatusCode = 200,
-            Message = "Review retrieved",
-            Data = response
+            StatusCode = 200, Message = "Review retrieved", Data = response
         });
     }
 
@@ -207,19 +212,16 @@ public sealed class ReviewsController : ControllerBase
         this.logger.LogInformation("CreateReview movieId:{movieId} userId:{userId}",
             request.Data.MovieId, request.Data.UserId);
 
-        // TODO 4 Додати можливість ставить відгуки з оцінкою-рейтингом (від 1 до 10)
         if (request.Data.Rating < 1 || request.Data.Rating > 10)
         {
             this.logger.LogWarning("BadRequest with rating");
 
             return this.BadRequest(new ApiResponse
             {
-                StatusCode = 400,
-                Message = "Rating must be between 1 and 10"
+                StatusCode = 400, Message = $"Invalid rating value {request.Data.Rating}. Accepted range: 1-10"
             });
         }
 
-        // TODO 6 Заборонити можливість в межах одного фільму певного користувача постити 1 відгук та проставляти 1 оцінку (рейтинг). Якщо такий відгук проставлений, то оновити його
         var existingReview =
             await this.dbContext.Reviews
                 .Where(r => r.MovieId == request.Data.MovieId && r.UserId == request.Data.UserId)
@@ -238,12 +240,9 @@ public sealed class ReviewsController : ControllerBase
         this.dbContext.Reviews.Add(review);
         await this.dbContext.SaveChangesAsync();
 
-        // TODO 8 Доробити всі методи сreate, додавши повернення id новоствореного об’єкта сутності або масив ids та назвами фільмів для створених об’єктів
         return this.Ok(new ApiResponse<int>
         {
-            StatusCode = 200,
-            Message = "Review created",
-            Data = review.Id
+            StatusCode = 200, Message = "Review created", Data = review.Id
         });
     }
 
@@ -255,15 +254,13 @@ public sealed class ReviewsController : ControllerBase
         this.logger.LogInformation("UpdateReview id:{id} movieId:{movieId} userId:{userId}", id,
             request.Data.MovieId, request.Data.UserId);
 
-        // TODO 4 Додати можливість ставить відгуки з оцінкою-рейтингом (від 1 до 10)
         if (request.Data.Rating < 1 || request.Data.Rating > 10)
         {
             this.logger.LogWarning("BadRequest with rating");
 
             return this.BadRequest(new ApiResponse
             {
-                StatusCode = 400,
-                Message = "Rating must be between 1 and 10"
+                StatusCode = 400, Message = "Rating must be between 1 and 10"
             });
         }
 
@@ -275,8 +272,7 @@ public sealed class ReviewsController : ControllerBase
 
             return this.NotFound(new ApiResponse
             {
-                StatusCode = 404,
-                Message = "Review not found"
+                StatusCode = 404, Message = $"Review with ID {id} not found in system"
             });
         }
 
@@ -284,7 +280,7 @@ public sealed class ReviewsController : ControllerBase
 
         await this.dbContext.SaveChangesAsync();
 
-        return this.Ok(new ApiResponse { StatusCode = 200, Message = "Review updated" });
+        return this.Ok(new ApiResponse { StatusCode = 200, Message = $"Review (ID: {id}) was successfully updated" });
     }
 
     [HttpDelete("{id}")]
@@ -301,12 +297,11 @@ public sealed class ReviewsController : ControllerBase
 
             return this.NotFound(new ApiResponse
             {
-                StatusCode = 404,
-                Message = "Review not found"
+                StatusCode = 404, Message = $"Review with ID {id} not found in system"
             });
         }
 
-        this.dbContext.Reviews.Remove(review);
+        review.IsDeleted = true;
         await this.dbContext.SaveChangesAsync();
 
         return this.Ok(new ApiResponse { StatusCode = 200, Message = "Review deleted" });

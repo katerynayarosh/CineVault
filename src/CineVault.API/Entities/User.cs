@@ -8,4 +8,6 @@ public sealed class User
     public required string Password { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public ICollection<Review> Reviews { get; set; } = [];
+    // TODO 10 Налаштувати підтримку "м'якого видалення" (Soft Delete) для сутностей. Додати поле IsDeleted (property) до кожної сутності
+    public bool IsDeleted { get; set; }
 }

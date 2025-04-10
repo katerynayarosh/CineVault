@@ -52,9 +52,7 @@ public class UsersController : ControllerBase
 
         var response = new UserResponse
         {
-            Id = user.Id,
-            Username = user.Username,
-            Email = user.Email
+            Id = user.Id, Username = user.Username, Email = user.Email
         };
 
         return this.Ok(response);
@@ -67,9 +65,7 @@ public class UsersController : ControllerBase
         this.logger.LogInformation("CreateUser username:{username}", request.Username);
         var user = new User
         {
-            Username = request.Username,
-            Email = request.Email,
-            Password = request.Password
+            Username = request.Username, Email = request.Email, Password = request.Password
         };
 
         this.dbContext.Users.Add(user);
@@ -133,9 +129,7 @@ public class UsersController : ControllerBase
 
         return this.Ok(new ApiResponse<ICollection<UserResponse>>
         {
-            StatusCode = 200,
-            Message = "Users retrieved",
-            Data = userResponses
+            StatusCode = 200, Message = "Users retrieved", Data = userResponses
         });
     }
 
@@ -152,16 +146,14 @@ public class UsersController : ControllerBase
         {
             this.logger.LogWarning("NotFound id:{id}", id);
 
-            return this.NotFound(new ApiResponse { StatusCode = 404, Message = "User not found" });
+            return this.NotFound(new ApiResponse { StatusCode = 404, Message = $"User with ID {id} not found in database" });
         }
 
         var response = this.mapper.Map<UserResponse>(user);
 
         return this.Ok(new ApiResponse<UserResponse>
         {
-            StatusCode = 200,
-            Message = "User retrieved",
-            Data = response
+            StatusCode = 200, Message = "User retrieved", Data = response
         });
     }
 
@@ -176,12 +168,9 @@ public class UsersController : ControllerBase
         this.dbContext.Users.Add(user);
         await this.dbContext.SaveChangesAsync();
 
-        // TODO 8 Доробити всі методи сreate, додавши повернення id новоствореного об’єкта сутності або масив ids та назвами фільмів для створених об’єктів
         return this.Ok(new ApiResponse<int>
         {
-            StatusCode = 200,
-            Message = "User created",
-            Data = user.Id
+            StatusCode = 200, Message = $"User '{request.Data.Username}' successfully created with ID {user.Id}",  Data = user.Id
         });
     }
 
@@ -198,14 +187,15 @@ public class UsersController : ControllerBase
         {
             this.logger.LogWarning("NotFound id:{id}", id);
 
-            return this.NotFound(new ApiResponse { StatusCode = 404, Message = "User not found" });
+            return this.NotFound(new ApiResponse { StatusCode = 404, Message = $"User with ID {id} not found in database" });
         }
 
         this.mapper.Map(request.Data, user);
 
         await this.dbContext.SaveChangesAsync();
 
-        return this.Ok(new ApiResponse { StatusCode = 200, Message = "User updated" });
+        return this.Ok(new ApiResponse { StatusCode = 200, Message = $"User profile (ID: {id}) was fully updated" 
+        });
     }
 
     [HttpDelete("{id}")]
@@ -220,15 +210,16 @@ public class UsersController : ControllerBase
         {
             this.logger.LogWarning("NotFound id:{id}", id);
 
-            return this.NotFound(new ApiResponse { StatusCode = 404, Message = "User not found" });
+            return this.NotFound(new ApiResponse { StatusCode = 404, Message = $"User with ID {id} not found in database" });
         }
 
-        this.dbContext.Users.Remove(user);
+        user.IsDeleted = true;
         await this.dbContext.SaveChangesAsync();
 
-        return this.Ok(new ApiResponse { StatusCode = 200, Message = "User deleted" });
+        return this.Ok(new ApiResponse { StatusCode = 200, Message = $"User account (ID: {id}) marked as deleted" });
     }
 
+    // TODO 13 Пагінація
     [HttpPost]
     [MapToApiVersion(2)]
     public async Task<ActionResult<ApiResponse<ICollection<UserResponse>>>> SearchUsers(
@@ -238,7 +229,6 @@ public class UsersController : ControllerBase
 
         var query = this.dbContext.Users.AsQueryable();
 
-        // TODO 2 Додати можливість пошуку користувачів за username або email
         if (!string.IsNullOrEmpty(request.Data.Username))
         {
             query = query.Where(u => u.Username.Contains(request.Data.Username));
@@ -249,7 +239,6 @@ public class UsersController : ControllerBase
             query = query.Where(u => u.Email.Contains(request.Data.Email));
         }
 
-        // TODO 2 Реалізувати фільтрацію за датою створення та сортування результатів
         if (request.Data.FromDate.HasValue)
         {
             query = query.Where(u => u.CreatedAt >= request.Data.FromDate);
@@ -277,7 +266,6 @@ public class UsersController : ControllerBase
             _ => query.OrderBy(u => u.Username)
         };
 
-        // TODO 2 Додати пагінацію для результатів пошуку
         var users = await query
             .Skip(((request.Data.PageNumber ?? 1) - 1) * (request.Data.PageSize ?? 10))
             .Take(request.Data.PageSize ?? 10)
@@ -287,9 +275,70 @@ public class UsersController : ControllerBase
 
         return this.Ok(new ApiResponse<ICollection<UserResponse>>
         {
+            StatusCode = 200, Message = "Users retrieved", Data = userResponses
+        });
+    }
+
+    // TODO 9 GetUserStats
+    [HttpPost("{id}")]
+    [MapToApiVersion(2)]
+    public async Task<ActionResult<ApiResponse<GetUserStatsResponse>>> GetUserStats(int id,
+        ApiRequest request)
+    {
+        this.logger.LogInformation("GetUserStats id:{id}", id);
+
+        var user = await this.dbContext.Users
+            .Include(u => u.Reviews)
+            .ThenInclude(r => r.Movie)
+            .FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user == null)
+        {
+            this.logger.LogWarning("User not found id:{id}", id);
+            return this.NotFound(new ApiResponse { StatusCode = 404, Message = $"User with ID {id} not found in database" });
+        }
+
+        var stats = new GetUserStatsResponse
+        {
+            TotalReviews = user.Reviews.Count,
+            AverageRating =
+                user.Reviews.Any() ? (decimal)user.Reviews.Average(r => r.Rating) : 0,
+            LastActivity = user.Reviews.Max(r => (DateTime?)r.CreatedAt),
+            GenreStatistics = user.Reviews
+                .Where(r => r.Movie != null && !string.IsNullOrEmpty(r.Movie.Genre))
+                .GroupBy(r => r.Movie!.Genre)
+                .Select(g => new GenreStatistic
+                {
+                    Genre = g.Key!,
+                    Count = g.Count(),
+                    AverageRating = (decimal)g.Average(r => r.Rating)
+                })
+                .OrderByDescending(g => g.Count)
+                .ToList()
+        };
+
+        return this.Ok(new ApiResponse<GetUserStatsResponse>
+        {
+            StatusCode = 200, Message = "User stats retrieved", Data = stats
+        });
+    }
+    
+    // TODO 10 Покажіть приклад, коли потрібно ігнорувати даний глобальний фільтр
+    [HttpPost]
+    [MapToApiVersion(2)]
+    public async Task<ActionResult<ApiResponse<int>>> GetTotalUsersCount(ApiRequest request)
+    {
+        this.logger.LogInformation("GetTotalUsersCount");
+
+        int totalCount = await this.dbContext.Users
+            .IgnoreQueryFilters()
+            .CountAsync();
+
+        return this.Ok(new ApiResponse<int> 
+        { 
             StatusCode = 200,
-            Message = "Users retrieved",
-            Data = userResponses
+            Message = "Total registered users count (including deleted)",
+            Data = totalCount
         });
     }
 }

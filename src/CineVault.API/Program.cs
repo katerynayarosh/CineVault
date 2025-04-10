@@ -1,5 +1,6 @@
 using System.Reflection;
 using Asp.Versioning;
+using CineVault.API.Entities;
 using CineVault.API.Extensions;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +56,10 @@ builder.Services.AddApiVersioning(options =>
     });
 
 var app = builder.Build();
+
+// TODO 3 Реалізувати логіку автоматичного створення бази даних за відсутності, використовуючи EnsureCreated()
+var dbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<CineVaultDbContext>();
+dbContext.Database.EnsureCreated();
 
 if (app.Environment.IsDevelopment())
 {
